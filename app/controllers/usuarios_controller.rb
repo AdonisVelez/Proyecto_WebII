@@ -1,34 +1,56 @@
-# app/controllers/usuarios_controller.rb
-class UsuariosController < ApplicationController
-  # Acción para registrar un nuevo usuario
-  def registrar
-    usuario = Usuario.new(usuario_params)
-    if usuario.save
-      render json: { message: "Usuario registrado exitosamente" }, status: :created
-    else
-      render json: { error: "Error al registrar el usuario", details: usuario.errors }, status: :unprocessable_entity
+  class UsuariosController < ApplicationController
+
+    # Acción para crear un nuevo usuario
+    def crear
+      usuario = Usuario.new(usuario_params)
+      if usuario.save
+        render json: { message: "Usuario creado exitosamente" }, status: :created
+      else
+        render json: { error: "Error al crear el usuario", details: usuario.errors }, status: :unprocessable_entity
+      end
+    end
+
+    # Acción para mostrar todos los usuarios
+    def index
+      usuarios = Usuario.all
+      render json: usuarios, status: :ok
+    end
+
+    # Acción para mostrar los detalles de un usuario específico
+    def mostrar
+      usuario = Usuario.find_by(id: params[:id])
+      if usuario
+        render json: usuario, status: :ok
+      else
+        render json: { error: "No se pudo encontrar el usuario con el ID proporcionado" }, status: :not_found
+      end
+    end
+
+    # Acción para actualizar la información de un usuario
+    def actualizar
+      usuario = Usuario.find_by(id: params[:id])
+      if usuario.update(usuario_params)
+        render json: { message: "Información del usuario actualizada exitosamente" }, status: :ok
+      else
+        render json: { error: "Error al actualizar la información del usuario", details: usuario.errors }, status: :unprocessable_entity
+      end
+    end
+
+    # Acción para eliminar un usuario
+    def eliminar
+      usuario = Usuario.find_by(id: params[:id])
+      if usuario
+        usuario.destroy
+        render json: { message: "Usuario eliminado correctamente" }, status: :ok
+      else
+        render json: { error: "No se pudo encontrar el usuario con el ID proporcionado" }, status: :not_found
+      end
+    end
+
+    private
+
+    # Método privado para definir los parámetros permitidos para crear o actualizar un usuario
+    def usuario_params
+      params.require(:usuario).permit(:nombre, :direccion, :telefono, :correo)
     end
   end
-
-  # Acción para iniciar sesión
-  def iniciar_sesion
-    usuario = Usuario.find_by(correo: params[:correo])
-    if usuario && usuario.authenticate(params[:password])
-      # Si el usuario existe y la contraseña es correcta, puedes devolver algún tipo de token de autenticación
-      render json: { message: "Inicio de sesión exitoso", token: generate_token(usuario) }, status: :ok
-    else
-      render json: { error: "Correo electrónico o contraseña incorrectos" }, status: :unauthorized
-    end
-  end
-
-  private
-  # Método privado para definir los parámetros permitidos para crear un nuevo usuario
-  def usuario_params
-    params.require(:usuario).permit(:nombre, :direccion, :telefono, :correo, :password)
-  end
-
-  # Generar un token de autenticación (ejemplo)
-  def generate_token(usuario)
-    # Lógica para generar un token único para el usuario
-  end
-end

@@ -1,4 +1,3 @@
-# app/controllers/libros_controller.rb
 class LibrosController < ApplicationController
 
   # Acción para crear un nuevo libro
@@ -60,6 +59,7 @@ class LibrosController < ApplicationController
   end
 
   private
+
   # Método privado para definir los parámetros permitidos para crear o actualizar un libro
   def libro_params
     params.require(:libro).permit(:titulo, :autor, :genero_id, :ano_publicacion, :num_ejemplares, :editorial_id)
