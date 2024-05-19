@@ -1,4 +1,5 @@
 class Usuario < ApplicationRecord
+  self.table_name = "usuario"
   # Relaciones
   has_many :prestamos
   has_many :devoluciones, through: :prestamos

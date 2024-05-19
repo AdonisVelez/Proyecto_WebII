@@ -1,4 +1,5 @@
 class Prestamo < ApplicationRecord
+  self.table_name = "prestamo"
   # Relaciones
   belongs_to :libro
   belongs_to :usuario

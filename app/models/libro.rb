@@ -1,4 +1,5 @@
 class Libro < ApplicationRecord
+  self.table_name = "libro"
   # Relaciones
   belongs_to :genero
   belongs_to :editorial

@@ -1,4 +1,5 @@
 class Genero < ApplicationRecord
+  self.table_name = "genero"
   # Relaciones
   has_many :libros
 

@@ -1,4 +1,5 @@
 class Devolucion < ApplicationRecord
+  self.table_name = "devolucion"
   # Relaciones
   belongs_to :prestamo
   has_one :libro, through: :prestamo
