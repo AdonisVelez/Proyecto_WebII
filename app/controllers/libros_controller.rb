@@ -1,7 +1,8 @@
 class LibrosController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   # Acción para crear un nuevo libro
-  def crear
+  def create
     libro = Libro.new(libro_params)
     if libro.save
       render json: { message: "Libro creado exitosamente" }, status: :created
@@ -28,7 +29,7 @@ class LibrosController < ApplicationController
   end
 
   # Acción para mostrar los detalles de un libro específico
-  def mostrar
+  def show
     libro = Libro.find_by(id: params[:id])
     if libro
       render json: libro, status: :ok
@@ -38,7 +39,7 @@ class LibrosController < ApplicationController
   end
 
   # Acción para actualizar la información de un libro
-  def actualizar
+  def update
     libro = Libro.find_by(id: params[:id])
     if libro.update(libro_params)
       render json: { message: "Información del libro actualizada exitosamente" }, status: :ok
@@ -48,7 +49,7 @@ class LibrosController < ApplicationController
   end
 
   # Acción para eliminar un libro
-  def eliminar
+  def destroy
     libro = Libro.find_by(id: params[:id])
     if libro
       libro.destroy

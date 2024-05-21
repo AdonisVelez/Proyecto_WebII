@@ -1,7 +1,8 @@
 class EditorialesController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   # Acción para crear una nueva editorial
-  def crear
+  def create
     editorial = Editorial.new(editorial_params)
     if editorial.save
       render json: { message: "Editorial creada exitosamente" }, status: :created
@@ -17,7 +18,7 @@ class EditorialesController < ApplicationController
   end
 
   # Acción para mostrar los detalles de una editorial específica
-  def mostrar
+  def show
     editorial = Editorial.find_by(id: params[:id])
     if editorial
       render json: editorial, status: :ok
@@ -27,7 +28,7 @@ class EditorialesController < ApplicationController
   end
 
   # Acción para actualizar la información de una editorial
-  def actualizar
+  def update
     editorial = Editorial.find_by(id: params[:id])
     if editorial.update(editorial_params)
       render json: { message: "Información de la editorial actualizada exitosamente" }, status: :ok
@@ -37,7 +38,7 @@ class EditorialesController < ApplicationController
   end
 
   # Acción para eliminar una editorial
-  def eliminar
+  def destroy
     editorial = Editorial.find_by(id: params[:id])
     if editorial
       editorial.destroy

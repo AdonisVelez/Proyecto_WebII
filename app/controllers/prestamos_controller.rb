@@ -1,7 +1,8 @@
 class PrestamosController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   # Acción para crear un nuevo préstamo
-  def crear
+  def create
     prestamo = Prestamo.new(prestamo_params)
     if prestamo.save
       render json: { message: "Préstamo creado exitosamente" }, status: :created
@@ -17,7 +18,7 @@ class PrestamosController < ApplicationController
   end
 
   # Acción para mostrar los detalles de un préstamo específico
-  def mostrar
+  def show
     prestamo = Prestamo.find_by(id: params[:id])
     if prestamo
       render json: prestamo, status: :ok
@@ -27,7 +28,7 @@ class PrestamosController < ApplicationController
   end
 
   # Acción para actualizar la información de un préstamo
-  def actualizar
+  def update
     prestamo = Prestamo.find_by(id: params[:id])
     if prestamo.update(prestamo_params)
       render json: { message: "Información del préstamo actualizada exitosamente" }, status: :ok
@@ -37,7 +38,7 @@ class PrestamosController < ApplicationController
   end
 
   # Acción para eliminar un préstamo
-  def eliminar
+  def destroy
     prestamo = Prestamo.find_by(id: params[:id])
     if prestamo
       prestamo.destroy

@@ -1,7 +1,8 @@
 class DevolucionesController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   # Acción para crear una nueva devolución
-  def crear
+  def create
     devolucion = Devolucion.new(devolucion_params)
     if devolucion.save
       render json: { message: "Devolución creada exitosamente" }, status: :created
@@ -17,7 +18,7 @@ class DevolucionesController < ApplicationController
   end
 
   # Acción para mostrar los detalles de una devolución específica
-  def mostrar
+  def show
     devolucion = Devolucion.find_by(id: params[:id])
     if devolucion
       render json: devolucion, status: :ok
@@ -27,7 +28,7 @@ class DevolucionesController < ApplicationController
   end
 
   # Acción para actualizar la información de una devolución
-  def actualizar
+  def update
     devolucion = Devolucion.find_by(id: params[:id])
     if devolucion.update(devolucion_params)
       render json: { message: "Información de la devolución actualizada exitosamente" }, status: :ok
@@ -37,7 +38,7 @@ class DevolucionesController < ApplicationController
   end
 
   # Acción para eliminar una devolución
-  def eliminar
+  def destroy
     devolucion = Devolucion.find_by(id: params[:id])
     if devolucion
       devolucion.destroy

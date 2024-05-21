@@ -1,5 +1,5 @@
 class Editorial < ApplicationRecord
-  self.table_name = "editrorial"
+  self.table_name = "editorial"
   # Relaciones
   has_many :libros
 

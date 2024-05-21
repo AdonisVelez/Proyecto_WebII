@@ -1,7 +1,8 @@
 class GenerosController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   # Acción para crear un nuevo género
-  def crear
+  def create
     genero = Genero.new(genero_params)
     if genero.save
       render json: { message: "Género creado exitosamente" }, status: :created
@@ -17,7 +18,7 @@ class GenerosController < ApplicationController
   end
 
   # Acción para mostrar los detalles de un género específico
-  def mostrar
+  def show
     genero = Genero.find_by(id: params[:id])
     if genero
       render json: genero, status: :ok
@@ -27,7 +28,7 @@ class GenerosController < ApplicationController
   end
 
   # Acción para actualizar la información de un género
-  def actualizar
+  def update
     genero = Genero.find_by(id: params[:id])
     if genero.update(genero_params)
       render json: { message: "Información del género actualizada exitosamente" }, status: :ok
@@ -37,7 +38,7 @@ class GenerosController < ApplicationController
   end
 
   # Acción para eliminar un género
-  def eliminar
+  def destroy
     genero = Genero.find_by(id: params[:id])
     if genero
       genero.destroy
